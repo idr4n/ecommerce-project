@@ -1,5 +1,5 @@
 .collection-preview {
-  max-width: 1600px;
+  max-width: 1300px;
   margin: 0 auto 30px;
   display: flex;
   flex-direction: column;
@@ -9,10 +9,12 @@
     font-size: 28px;
     margin-bottom: 25px;
   }
-  
+
   .preview {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    grid-column-gap: 30px;
+    grid-row-gap: 50px;
+    justify-items: center;
   }
 }
