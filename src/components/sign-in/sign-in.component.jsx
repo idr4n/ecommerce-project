@@ -5,7 +5,8 @@ import './sign-in.styles.scss';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
-import { signInWithGoogle } from '../../firebase/firebase.utils';
+import { auth, signInWithGoogle } from '../../firebase/firebase.utils';
+import { withRouter } from 'react-router-dom';
 
 class SignIn extends React.Component {
   constructor(props) {
@@ -25,6 +26,14 @@ class SignIn extends React.Component {
   handleChange = (event) => {
     const { value, name } = event.target;
     this.setState({ [name]: value });
+  };
+
+  // created by me to prevent required input tooltip when clicked
+  googleSignIn = (event) => {
+    event.preventDefault();
+    signInWithGoogle().then(() => {
+      this.props.history.push('/');
+    });
   };
 
   render() {
@@ -50,15 +59,21 @@ class SignIn extends React.Component {
             required
           />
 
-          <CustomButton type="submit">Sign in</CustomButton>
-          <CustomButton onClick={signInWithGoogle}>
-            {' '}
-            Sign in with Google{' '}
-          </CustomButton>
+          <div className="buttons">
+            <CustomButton type="submit">Sign in</CustomButton>
+            <CustomButton
+              // onClick={signInWithGoogle}
+              onClick={this.googleSignIn}
+              isGoogleSignedIn={auth.currentUser}
+            >
+              {' '}
+              Sign in with Google{' '}
+            </CustomButton>
+          </div>
         </form>
       </div>
     );
   }
 }
 
-export default SignIn;
+export default withRouter(SignIn);
